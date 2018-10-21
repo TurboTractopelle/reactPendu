@@ -4,6 +4,22 @@ import Counter from "./Counter";
 
 import "./styles.css";
 
+const myArr = ["a", "a", "b", "b", "c", "z", "a"];
+
+console.log(
+  myArr.reduce((acc, item) => {
+    let newItem = "";
+
+    acc.find(itemAcc => {
+      return itemAcc === item;
+    })
+      ? (newItem = null)
+      : (newItem = item);
+
+    return [...acc, newItem];
+  }, [])
+);
+
 class App extends Component {
   state = {
     counter: 0,
