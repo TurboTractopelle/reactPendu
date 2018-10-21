@@ -1,2 +1,0 @@
-# reactPendu
-Created with CodeSandbox
