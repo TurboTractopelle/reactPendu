@@ -4,13 +4,6 @@ import Counter from "./Counter";
 
 import "./styles.css";
 
-let myArr = ["a", "b", "c"];
-
-let test = [].concat(myArr);
-test[0] = "5";
-
-console.log(test);
-
 class App extends Component {
   initSecret = () =>
     Object.entries("abcda").reduce((acc, item) => {
@@ -57,8 +50,6 @@ class App extends Component {
   };
 
   handleResolve = valeur => {
-    // this.state.secret.find((item,i)=> console.log(item === valeur,i))
-
     let sortie = [];
     this.state.secret.find((item, i) => {
       if (item === valeur) {
@@ -66,19 +57,15 @@ class App extends Component {
       }
     });
 
-    this.setState(prevState => {
-      const secretVisible = [].concat(prevState.secretVisible);
-      secretVisible[0] = "X";
-      const state = { ...prevState, secretVisible };
-      return state;
-    });
-
-    /*
-    sortie.length > 0 && sortie.map((item)=> {
-      this.setState(prevState => {
-        return { ...prevState, prevState.secretVisible : [...prevState.secretVisible,  ]}
-      })
-    })*/
+    sortie.length > 0 &&
+      sortie.map(item => {
+        this.setState(prevState => {
+          const secretVisible = [].concat(prevState.secretVisible);
+          secretVisible[item] = prevState.secret[item];
+          const state = { ...prevState, secretVisible };
+          return state;
+        });
+      });
   };
 
   handleLetter = e => {
