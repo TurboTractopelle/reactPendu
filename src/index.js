@@ -4,32 +4,23 @@ import Counter from "./Counter";
 
 import "./styles.css";
 
-const myArr = ["a", "a", "b", "b", "c", "z", "a"];
-
-let test = myArr.reduce((acc, item) => {
-  let flag = "";
-
-  acc.find(accItem => {
-    if (accItem === item) {
-      return (flag = true);
-    } else {
-      return (flag = false);
-    }
-  });
-
-  if (flag) {
-    return acc;
-  } else {
-    return [...acc, item];
-  }
-}, []);
-
 class App extends Component {
+  initSecret = () =>
+    Object.entries("abcda").reduce((acc, item) => {
+      return [...acc, item[1]];
+    }, []);
+
+  secretVisible = () => {
+    let longueur = "abcda".length;
+    return ["*", "*", "*", "*"];
+  };
+
   state = {
     counter: 0,
     input: "",
     propose: [],
-    secret: "abcd",
+    secret: this.initSecret(),
+    secretVisible: this.secretVisible(),
     letter: "",
     counterClass: "active"
   };
@@ -58,26 +49,60 @@ class App extends Component {
     });
   };
 
+  handleResolve = valeur => {
+    // this.state.secret.find((item,i)=> console.log(item === valeur,i))
+
+    let sortie = [];
+    this.state.secret.find((item, i) => {
+      if (item === valeur) {
+        sortie = [...sortie, i];
+      }
+    });
+
+    this.setState(prevState => {
+      //console.log(prevState.secretVisible[0])
+      const secretVisible = [
+        ...prevState.secretVisible,
+        (prevState.secretVisible[0] = "X")
+      ];
+      //console.log(secretVisible)
+      const state = { ...prevState, secretVisible };
+      return state;
+      //return prevState
+    });
+
+    /*
+    sortie.length > 0 && sortie.map((item)=> {
+      this.setState(prevState => {
+        return { ...prevState, prevState.secretVisible : [...prevState.secretVisible,  ]}
+      })
+    })*/
+  };
+
   handleLetter = e => {
     const valeur = e.target.value;
-    this.setState({ letter: "" });
     this.handleCounter();
     this.reducePropose(valeur);
+    this.handleResolve(valeur);
   };
 
   render() {
     const {
       refus,
       secret,
+      secretVisible,
       propose,
       letter,
       counter,
       counterClass
     } = this.state;
 
+    console.log(secretVisible);
+
     return (
       <div>
-        <div>{secret}</div>
+        <div>secret: {secret}</div>
+        <div>secretVisible: {secretVisible.map(item => item)}</div>
         <div className={counterClass}>{counter}</div>
 
         <input type="text" onChange={this.handleLetter} value={letter} />
