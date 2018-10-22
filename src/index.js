@@ -4,6 +4,13 @@ import Counter from "./Counter";
 
 import "./styles.css";
 
+let myArr = ["a", "b", "c"];
+
+let test = [].concat(myArr);
+test[0] = "5";
+
+console.log(test);
+
 class App extends Component {
   initSecret = () =>
     Object.entries("abcda").reduce((acc, item) => {
@@ -60,15 +67,10 @@ class App extends Component {
     });
 
     this.setState(prevState => {
-      //console.log(prevState.secretVisible[0])
-      const secretVisible = [
-        ...prevState.secretVisible,
-        (prevState.secretVisible[0] = "X")
-      ];
-      //console.log(secretVisible)
+      const secretVisible = [].concat(prevState.secretVisible);
+      secretVisible[0] = "X";
       const state = { ...prevState, secretVisible };
       return state;
-      //return prevState
     });
 
     /*
@@ -97,7 +99,7 @@ class App extends Component {
       counterClass
     } = this.state;
 
-    console.log(secretVisible);
+    //console.log(secretVisible);
 
     return (
       <div>
