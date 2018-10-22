@@ -4,15 +4,19 @@ import Counter from "./Counter";
 
 import "./styles.css";
 
+const magie = "sciences";
+
 class App extends Component {
   initSecret = () =>
-    Object.entries("abcda").reduce((acc, item) => {
+    Object.entries(magie).reduce((acc, item) => {
       return [...acc, item[1]];
     }, []);
 
   secretVisible = () => {
-    let longueur = "abcda".length;
-    return ["*", "*", "*", "*"];
+    let longueur = magie.length;
+    return Array(longueur + 1)
+      .join("*")
+      .split("");
   };
 
   state = {
@@ -78,7 +82,6 @@ class App extends Component {
   render() {
     const {
       refus,
-      secret,
       secretVisible,
       propose,
       letter,
@@ -90,9 +93,8 @@ class App extends Component {
 
     return (
       <div>
-        <div>secret: {secret}</div>
-        <div>secretVisible: {secretVisible.map(item => item)}</div>
-        <div className={counterClass}>{counter}</div>
+        <div>secret : {secretVisible.map(item => item)}</div>
+        <div className={counterClass}>essais : {counter}</div>
 
         <input type="text" onChange={this.handleLetter} value={letter} />
 
